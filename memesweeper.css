@@ -30,3 +30,19 @@ body {
 	background-image: radial-gradient(var(--background-grad-1), var(--background-grad-2), var(--background-grad-3) );
 }
 
+#memeScroll {
+	position: absolute;
+	top: 0;
+	animation-name: scroll;
+	animation-duration: 10s;
+	animation-iteration-count: infinite;
+	z-index: -1;
+	max-width: 200px;
+	max-height: 200px;
+}
+
+@keyframes scroll {
+	from  {transform: translate(0)}
+	to   {transform: translate(100vw)}
+}
+
