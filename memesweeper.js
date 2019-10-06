@@ -7,6 +7,9 @@ var numbers = new Array(20);
 var clickCount = 0;
 var timer = new easytimer.Timer();
 
+var unRevealedColor = "#999999";
+var revealedColor = "#FFFFFF";
+
 window.onload = function () {
 	
 	canvas.width  = 600;
@@ -111,7 +114,7 @@ function drawBoard(){
     var ctx = c.getContext("2d");
 	for(var x = 0; x < canvas.width; x+=sizeX){
 		for(var y =0; y < canvas.height; y+=sizeY){
-			ctx.fillStyle = "#999999";
+			ctx.fillStyle = unRevealedColor;
 			ctx.fillRect(x, y, sizeX, sizeY);
 			ctx.strokeRect(x, y, sizeX, sizeY);
 			ctx.fillStyle = "#000000";
@@ -124,7 +127,7 @@ function drawNumber(x, y) {
     var ctx = c.getContext("2d");
 	ctx.font = "30px Arial";
 	if (mines[x][y] == 0 && revealCheck[x][y] == 0 ) {
-		ctx.fillStyle = "#FFFFFF";
+		ctx.fillStyle = revealedColor;
 		ctx.fillRect(x*sizeX, y*sizeY, sizeX, sizeY);
 		ctx.strokeRect(x*sizeX, y*sizeY, sizeX, sizeY);
 		ctx.fillStyle = "#000000";
