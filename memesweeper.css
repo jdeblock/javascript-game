@@ -1,7 +1,32 @@
+:root {
+	/* js used to change these when game is lost */
+	--background-grad-1: #000099;
+	--background-grad-2: #4D4DFF;
+	--background-grad-3: #BFBFFF;
+}
+
+
 canvas {
-	border: 1px solid black;
+	border: 10px solid black;
 	margin: auto;
 	display: block;
 	width: 600px;
 	height: 600px;
+	background-color: white;
 }
+
+h1 {
+	text-align: center;
+	font-family: sans-serif;
+	margin: auto;
+	background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	width: min-content;
+}
+
+body {
+	background-image: radial-gradient(var(--background-grad-1), var(--background-grad-2), var(--background-grad-3) );
+}
+
