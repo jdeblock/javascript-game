@@ -6,6 +6,7 @@ var revealCheck = new Array(20);
 var numbers = new Array(20);
 var clickCount = 0;
 var timer = new easytimer.Timer();
+var gameEnded = false;
 
 var unRevealedColor = "#999999";
 var revealedColor = "#FFFFFF";
@@ -33,8 +34,9 @@ window.onload = function () {
 }
 
 function resetBoard() {
+	gameEnded = false;
 	var c = document.getElementById("canvas");
-    var ctx = c.getContext("2d");
+    	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	genMines();
 	drawBoard();
@@ -224,6 +226,7 @@ function checkWon() {
 	}
 	if (sum == revealCheck.length*revealCheck.length - mineCount) {
 		// you win!
+		gameEnded = true;
 		timer.stop();
 		// submit score
 		highscore(document.getElementById("timer").innerHTML);
@@ -250,6 +253,7 @@ function getPosition(event)
 	}
 		if(mines[x][y] == 1){
 			// you lose
+			gameEnded = true;
 			timer.stop();
 			revealEntireBoard();
 			// change colors
@@ -260,8 +264,9 @@ function getPosition(event)
 		} else {
 			revealBoard(x, y);
 		}
-	
-	checkWon();
+	if (gameEnded == false) {
+		checkWon();
+	}
 	clickCount++;
 	
 }
