@@ -32,18 +32,36 @@ body {
 	background-image: radial-gradient(var(--background-grad-1), var(--background-grad-2), var(--background-grad-3) );
 }
 
-#memeHolder {
+.memeHolder {
 	overflow: hidden;
 	max-width: 100%;
 }
 
-#memeScroll {
+.memeScroll {
 	position: absolute;
-	top: 0;
 	animation-name: scroll;
-	animation-duration: 20s;
 	animation-iteration-count: infinite;
 	z-index: -1;
+
+}
+
+#hulk {
+	top: 30px;
+	animation-duration: 30s;
+	max-width: 200px;
+	max-height: 200px;
+}
+
+#spartan {
+	top: 500px;
+	animation-duration: 35s;
+	max-width: 200px;
+	max-height: 200px;
+}
+
+#gru {
+	top: 250px;
+	animation-duration: 40s;
 	max-width: 200px;
 	max-height: 200px;
 }
@@ -57,10 +75,14 @@ body {
 	margin: auto;
 	display: block;
 	text-align: center;
+	color: red;
+	font-size: 24px;
 }
 
 #playAgain {
 	margin: auto;
 	display: block;
+	font-size: 24px;
 }
+
 

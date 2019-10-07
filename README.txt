@@ -7,7 +7,10 @@ We met all of the requirements and we had fun.
 
 CSS3 Features used
 ------------------
-gradients, animations, variables
+A gradient was used for the background.
+Animations were used for the scrolling memes.
+Variables were used to change the background color when the game is lost.
+Text effects were used for the rainbow title.
 
 Javascript libraries
 --------------------

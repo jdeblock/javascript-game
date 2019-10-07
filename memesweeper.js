@@ -39,6 +39,10 @@ function resetBoard() {
 	genMines();
 	drawBoard();
 	clickCount = 0;
+	// change colors
+	$(':root').css("--background-grad-1", "#000099");
+	$(':root').css("--background-grad-2", "#4D4DFF");
+	$(':root').css("--background-grad-3", "#BFBFFF");
 	// reset timer
 	timer.reset();
 	timer.stop();
@@ -248,6 +252,10 @@ function getPosition(event)
 			// you lose
 			timer.stop();
 			revealEntireBoard();
+			// change colors
+			$(':root').css("--background-grad-1", "#FF0000");
+			$(':root').css("--background-grad-2", "#FFC04D");
+			$(':root').css("--background-grad-3", "#E69500");
 			return;
 		} else {
 			revealBoard(x, y);
