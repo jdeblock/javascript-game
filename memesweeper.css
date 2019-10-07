@@ -6,6 +6,7 @@
 }
 
 
+
 canvas {
 	border: 10px solid black;
 	margin: auto;
@@ -27,14 +28,20 @@ h1 {
 }
 
 body {
+	overflow-x: hidden;
 	background-image: radial-gradient(var(--background-grad-1), var(--background-grad-2), var(--background-grad-3) );
+}
+
+#memeHolder {
+	overflow: hidden;
+	max-width: 100%;
 }
 
 #memeScroll {
 	position: absolute;
 	top: 0;
 	animation-name: scroll;
-	animation-duration: 10s;
+	animation-duration: 20s;
 	animation-iteration-count: infinite;
 	z-index: -1;
 	max-width: 200px;
@@ -42,7 +49,18 @@ body {
 }
 
 @keyframes scroll {
-	from  {transform: translate(0)}
+	from  {transform: translate(-250px)}
 	to   {transform: translate(100vw)}
+}
+
+#timer {
+	margin: auto;
+	display: block;
+	text-align: center;
+}
+
+#playAgain {
+	margin: auto;
+	display: block;
 }
 
