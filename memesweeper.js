@@ -5,6 +5,10 @@ var mines = new Array(20);
 var revealCheck = new Array(20);
 var numbers = new Array(20);
 var clickCount = 0;
+var timer = new easytimer.Timer();
+
+var unRevealedColor = "#999999";
+var revealedColor = "#FFFFFF";
 
 window.onload = function () {
 	
@@ -17,6 +21,15 @@ window.onload = function () {
     document.getElementById("canvas").addEventListener("click", getPosition, false);
     document.getElementById("canvas").addEventListener("oncontextmenu", rightclick, false);
 	document.getElementById("playAgain").addEventListener("click", resetBoard);
+	
+	timer.start();
+	timer.addEventListener('secondsUpdated', function (e) {
+		$('#timer').html(timer.getTimeValues().toString());
+	});
+	timer.stop();
+	
+	// api
+	update_scores();
 }
 
 function resetBoard() {
@@ -25,7 +38,10 @@ function resetBoard() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	genMines();
 	drawBoard();
+	clickCount = 0;
 	// reset timer
+	timer.reset();
+	timer.stop();
 }
 	
 
@@ -82,6 +98,14 @@ function genMines(){
 			}
 		}
 	}
+	
+	for (var i = 0; i < mines.length; i++) {
+	  for(var j = 0; j < mines[i].length; j++){
+		  if (mines[i][j] == 1) {
+			numbers[i][j] = 0;
+		  }
+	  }
+	}
 }
 
 function drawBoard(){
@@ -90,9 +114,10 @@ function drawBoard(){
     var ctx = c.getContext("2d");
 	for(var x = 0; x < canvas.width; x+=sizeX){
 		for(var y =0; y < canvas.height; y+=sizeY){
+			ctx.fillStyle = unRevealedColor;
+			ctx.fillRect(x, y, sizeX, sizeY);
 			ctx.strokeRect(x, y, sizeX, sizeY);
 			ctx.fillStyle = "#000000";
-			
 		}
 	}
 }
@@ -101,8 +126,14 @@ function drawNumber(x, y) {
 	var c = document.getElementById("canvas");
     var ctx = c.getContext("2d");
 	ctx.font = "30px Arial";
-	ctx.fillStyle = "#000000";
-	if (revealCheck[x][y] == 0 && numbers[x][y] != 0) {
+	if (mines[x][y] == 0 && revealCheck[x][y] == 0 ) {
+		ctx.fillStyle = revealedColor;
+		ctx.fillRect(x*sizeX, y*sizeY, sizeX, sizeY);
+		ctx.strokeRect(x*sizeX, y*sizeY, sizeX, sizeY);
+		ctx.fillStyle = "#000000";
+	}
+	
+	if (revealCheck[x][y] == 0 && numbers[x][y] != 0) {			
 		ctx.fillText(numbers[x][y], x*sizeX+6, y*(sizeY)+26);
 	}
 	revealCheck[x][y] = 1;	
@@ -111,22 +142,39 @@ function drawNumber(x, y) {
 function revealBoard(x, y){
 	if(numbers[x][y] == 0){
 		drawNumber(x, y);
-		if(x > 0 && revealCheck[x-1][y] == 0){
+		if(x > 0 && revealCheck[x-1][y] == 0 && mines[x-1][y] == 0){
 			revealBoard(x-1, y);
 		}
-		if(x < numbers.length-1 && revealCheck[x+1][y] == 0){
+		if(x < numbers.length-1 && revealCheck[x+1][y] == 0 && mines[x+1][y] == 0){
 			revealBoard(x+1, y);
 		}
-		if(y > 0 && revealCheck[x][y-1] == 0){
+		if(y > 0 && revealCheck[x][y-1] == 0 && mines[x][y-1] == 0){
 			revealBoard(x, y-1);
 		}
-		if(y < numbers.length-1 && revealCheck[x][y+1] == 0){
+		if(y < numbers.length-1 && revealCheck[x][y+1] == 0 && mines[x][y+1] == 0){
 			revealBoard(x, y+1);
 		}
 	} else {
 		drawNumber(x, y);
 	}
 	
+}
+
+function revealEntireBoard() {
+	for (var i = 0; i < mines.length; i++) {
+		for (var j = 0; j < mines[i].length; j++) {
+			if (mines[i][j] == 1) {
+				// draw mine
+				var c = document.getElementById("canvas");
+				var ctx = c.getContext("2d");
+				ctx.clearRect(i*sizeX, j*sizeY, sizeX, sizeY);
+				var img = document.getElementById("pikachu");
+				ctx.drawImage(img, i*sizeX, j*sizeY, sizeX, sizeY);
+			} else {
+				drawNumber(i, j);
+			}
+		}
+	}
 }
 
 
@@ -163,6 +211,22 @@ function rightclick(event){
 	return false;
 }
 
+function checkWon() {
+	var sum = 0;
+	for (var i = 0; i < revealCheck.length; i++) {
+		for (var j = 0; j < revealCheck[i].length; j++) {
+			sum += revealCheck[i][j];
+		}
+	}
+	if (sum == revealCheck.length*revealCheck.length - mineCount) {
+		// you win!
+		timer.stop();
+		// submit score
+		highscore(document.getElementById("timer").innerHTML);
+	}
+		
+}
+
 function getPosition(event)
 {
 	
@@ -172,19 +236,24 @@ function getPosition(event)
 	x = Math.floor(x/sizeX);
 	y = Math.floor(y/sizeY);
 	
-	revealBoard(x, y);
 	
 	if(clickCount == 0){
+		timer.start();
 		if(mines[x][y] == 1){
 			mines[x][y] = 0;
 			genNumberBoard(x, y);
 		}
-	} else {
-		if(mines[x][y] == 1){
-			
-		}
-		
 	}
+		if(mines[x][y] == 1){
+			// you lose
+			timer.stop();
+			revealEntireBoard();
+			return;
+		} else {
+			revealBoard(x, y);
+		}
+	
+	checkWon();
 	clickCount++;
 	
 }

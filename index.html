@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="memesweeper.css">
 <link rel="stylesheet" href="highscore.css">
 
+<script src="lib/easytimer/dist/easytimer.min.js"></script>
+<script>
+    var timerInstance = new easytimer.Timer();
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="memesweeper.js"></script>
 <script type="text/javascript" src="HighscoreAPI.js"></script>
@@ -21,8 +25,10 @@
 </section>
 
 <section>
-<div id="timer">timer</div>
+<div id="timer">00:00:00</div>
 </section>
+
+<img src="images/surprisedpikachu.jpg" style="display:none;" id="pikachu">
 
 <section>
 <button id="playAgain">Play Again</button>
