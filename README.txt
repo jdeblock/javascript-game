@@ -20,3 +20,4 @@ What nifty features of your program were a bear to implement?
 -------------------------------------------------------------
 We had some trouble working with canvas, as the size did not work as expected.
 Revealing the mine images.
+The scrolling memes were difficult because they created a horizontal scroll bar when leaving the screen. Finding out how to stop this was a bit difficult.
